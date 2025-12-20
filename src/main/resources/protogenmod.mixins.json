@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "net.zaharenko424.protogenmod.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8.5",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "entity.attribute.AttributeInstanceAccess",
+    "entity.attribute.AttributeSupplierAccess",
+    "entity.attribute.MixinAttributeMap",
+    "entity.attribute.MixinAttributeSupplierBuilder",
+    "entity.MixinEntity",
+    "entity.MixinLivingEntity",
+    "entity.MixinPlayer"
+  ],
+  "client": [
+    "entity.MixinLocalPlayer"
+  ]
+}

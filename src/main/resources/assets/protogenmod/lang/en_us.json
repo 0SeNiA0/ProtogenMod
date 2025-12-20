@@ -1,0 +1,13 @@
+{
+  "itemGroup.protogenmod": "Example Mod Tab",
+  "block.protogenmod.example_block": "Example Block",
+  "item.protogenmod.example_item": "Example Item",
+
+  "protogenmod.configuration.title": "Example Mod Configs",
+  "protogenmod.configuration.section.protogenmod.common.toml": "Example Mod Configs",
+  "protogenmod.configuration.section.protogenmod.common.toml.title": "Example Mod Configs",
+  "protogenmod.configuration.items": "Item List",
+  "protogenmod.configuration.logDirtBlock": "Log Dirt Block",
+  "protogenmod.configuration.magicNumberIntroduction": "Magic Number Text",
+  "protogenmod.configuration.magicNumber": "Magic Number"
+}

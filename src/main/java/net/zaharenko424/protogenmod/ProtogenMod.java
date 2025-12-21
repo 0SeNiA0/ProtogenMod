@@ -4,42 +4,25 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.zaharenko424.protogenmod.registry.AttachmentRegistry;
-import net.zaharenko424.protogenmod.registry.EntityRegistry;
-import net.zaharenko424.protogenmod.registry.TransformRegistry;
+import net.zaharenko424.protogenmod.registry.*;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+
+import static net.zaharenko424.protogenmod.registry.ItemRegistry.EXAMPLE_BLOCK_ITEM;
+import static net.zaharenko424.protogenmod.registry.ItemRegistry.EXAMPLE_ITEM;
 
 @Mod(ProtogenMod.MODID)
 public class ProtogenMod {
 
     public static final String MODID = "protogenmod";
     public static final Logger LOGGER = LogUtils.getLogger();
-
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-
-    public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
-
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
@@ -66,15 +49,13 @@ public class ProtogenMod {
 
     public ProtogenMod(IEventBus modEventBus, ModContainer modContainer) {
 
+        BlockRegistry.BLOCKS.register(modEventBus);
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
+        ItemRegistry.ITEMS.register(modEventBus);
 
         AttachmentRegistry.ATTACHMENT_TYPES.register(modEventBus);
         TransformRegistry.TRANSFORM_TYPES.register(modEventBus);
 
-        // Register the Deferred Register to the mod event bus so blocks get registered
-        BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 

@@ -5,7 +5,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.zaharenko424.protogenmod.ProtogenMod;
-import net.zaharenko424.protogenmod.transformation.TransformHandler;
+import net.zaharenko424.protogenmod.transform.TransformHandler;
 
 public class AttachmentRegistry {
 

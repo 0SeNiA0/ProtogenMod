@@ -3,7 +3,7 @@ package net.zaharenko424.protogenmod.entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.zaharenko424.protogenmod.registry.TransformRegistry;
-import net.zaharenko424.protogenmod.transformation.TransformEntity;
+import net.zaharenko424.protogenmod.transform.TransformEntity;
 
 public class ProtogenEntity extends TransformEntity<Protogen, ProtogenEntity> {
 

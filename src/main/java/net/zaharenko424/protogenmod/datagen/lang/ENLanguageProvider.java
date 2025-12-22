@@ -2,7 +2,10 @@ package net.zaharenko424.protogenmod.datagen.lang;
 
 import net.minecraft.data.PackOutput;
 import net.zaharenko424.protogenmod.ProtogenMod;
+import net.zaharenko424.protogenmod.registry.CreativeTabRegistry;
 import net.zaharenko424.protogenmod.registry.TransformRegistry;
+
+import static net.zaharenko424.protogenmod.registry.ItemRegistry.THE_RIFLE;
 
 public class ENLanguageProvider extends LanguageProvider {
 
@@ -48,9 +51,9 @@ public class ENLanguageProvider extends LanguageProvider {
         add("key." + modid + ".keyCategory", "Protogen Mod");
 
         //Items
+        addItemFromId(THE_RIFLE);
 
-
-        add("itemGroup." + modid + ".main", "Protogen Mod");
+        add(CreativeTabRegistry.MAIN_TAB.getId().toLanguageKey("itemGroup"), "Protogen Mod");
 
         //Message
 

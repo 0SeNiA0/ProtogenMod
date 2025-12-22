@@ -10,7 +10,7 @@ import net.minecraft.world.level.GameRules;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.zaharenko424.protogenmod.transformation.TransformType;
+import net.zaharenko424.protogenmod.transform.TransformType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;

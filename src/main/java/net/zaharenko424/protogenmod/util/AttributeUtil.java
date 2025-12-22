@@ -1,39 +1,63 @@
 package net.zaharenko424.protogenmod.util;
 
+import net.minecraft.core.Holder;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.zaharenko424.protogenmod.transformation.AttributeMapExt;
-import org.jetbrains.annotations.Nullable;
+import net.zaharenko424.protogenmod.mixin.entity.attribute.AttributeMapAccess;
+import net.zaharenko424.protogenmod.mixin.entity.attribute.AttributeSupplierAccess;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Map;
+
+@ParametersAreNonnullByDefault
 public class AttributeUtil {
 
-    public static @Nullable AttributeModifier mapModifier(AttributeModifier original, float delta){
-        double mappedAmount = original.amount() * delta;
-        return mappedAmount != 0 ? new AttributeModifier(original.id(), mappedAmount, original.operation()) : null;
+    public static void mapBaseValues(AttributeMap current, AttributeMap base, AttributeSupplier transform, float delta){
+        Map<Holder<Attribute>, AttributeInstance> instances = ((AttributeSupplierAccess)((AttributeMapAccess)current).getSupplier()).getInstances();
+
+        boolean first, second;
+        double newBase;
+        AttributeInstance targetInstance;
+        for(Holder<Attribute> attrib : instances.keySet()){
+            targetInstance = current.getInstance(attrib);
+            first = base.hasAttribute(attrib);
+            second = transform.hasAttribute(attrib);
+
+            if(first && second){
+                newBase = Mth.lerp(base.getBaseValue(attrib), transform.getBaseValue(attrib), delta);
+            } else if(first){
+                newBase = Mth.lerp(base.getBaseValue(attrib), attrib.value().getDefaultValue(), delta);
+            } else if(second){
+                newBase = Mth.lerp(attrib.value().getDefaultValue(), transform.getBaseValue(attrib), delta);
+            } else newBase = attrib.value().getDefaultValue();
+
+            targetInstance.setBaseValue(newBase);
+        }
     }
 
-    public static void mapBaseValuesAndAttributes(AttributeMap current, AttributeMap previous, AttributeSupplier transform, float delta){
-        AttributeMapExt.of(current).mapBaseValuesAndAttributes(previous, transform, delta);
-    }
+    public static void mapBaseValues(AttributeMap current, AttributeSupplier prevTransform, AttributeSupplier transform, float delta){
+        Map<Holder<Attribute>, AttributeInstance> instances = ((AttributeSupplierAccess)((AttributeMapAccess)current).getSupplier()).getInstances();
 
-    public static AttributeMap mergeAttributes(AttributeMap base, AttributeSupplier transform){
-        return AttributeMapExt.of(base).mergeAttributesWith(transform);
-    }
+        boolean first, second;
+        double newBase;
+        AttributeInstance targetInstance;
+        for(Holder<Attribute> attrib : instances.keySet()){
+            targetInstance = current.getInstance(attrib);
+            first = prevTransform.hasAttribute(attrib);
+            second = transform.hasAttribute(attrib);
 
-    public static AttributeMap mergeAttributes(AttributeMap base, AttributeMap previous, AttributeSupplier transform){
-        return AttributeMapExt.of(base).mergeAttributesWith(previous, transform);
-    }
+            if(first && second){
+                newBase = Mth.lerp(prevTransform.getBaseValue(attrib), transform.getBaseValue(attrib), delta);
+            } else if(first){
+                newBase = Mth.lerp(prevTransform.getBaseValue(attrib), attrib.value().getDefaultValue(), delta);
+            } else if(second){
+                newBase = Mth.lerp(attrib.value().getDefaultValue(), transform.getBaseValue(attrib), delta);
+            } else newBase = attrib.value().getDefaultValue();
 
-    public static AttributeMap mergeAndMapAttributes(AttributeMap base, AttributeSupplier transform, float delta){
-        AttributeMap map = mergeAttributes(base, transform);
-        mapBaseValuesAndAttributes(map, base, transform, delta);
-        return map;
-    }
-
-    public static AttributeMap mergeAndMapAttributes(AttributeMap base, AttributeMap previous, AttributeSupplier transform, float delta){
-        AttributeMap map = mergeAttributes(base, previous, transform);
-        mapBaseValuesAndAttributes(map, previous, transform, delta);
-        return map;
+            targetInstance.setBaseValue(newBase);
+        }
     }
 }

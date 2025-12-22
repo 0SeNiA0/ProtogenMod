@@ -1,4 +1,4 @@
-package net.zaharenko424.protogenmod.transformation;
+package net.zaharenko424.protogenmod.transform;
 
 import net.minecraft.world.entity.LivingEntity;
 

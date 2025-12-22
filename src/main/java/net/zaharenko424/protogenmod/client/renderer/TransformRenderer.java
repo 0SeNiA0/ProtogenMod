@@ -3,8 +3,8 @@ package net.zaharenko424.protogenmod.client.renderer;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.zaharenko424.protogenmod.transformation.AbstractTransform;
-import net.zaharenko424.protogenmod.transformation.TransformEntity;
+import net.zaharenko424.protogenmod.transform.AbstractTransform;
+import net.zaharenko424.protogenmod.transform.TransformEntity;
 
 public abstract class TransformRenderer <TF extends AbstractTransform<TF, E>, E extends TransformEntity<TF, E>, M extends EntityModel<E>> extends MobRenderer<E, M> {
 

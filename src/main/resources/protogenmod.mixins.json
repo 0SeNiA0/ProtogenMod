@@ -7,13 +7,11 @@
     "defaultRequire": 1
   },
   "mixins": [
-    "entity.attribute.AttributeInstanceAccess",
-    "entity.attribute.AttributeSupplierAccess",
-    "entity.attribute.MixinAttributeMap",
-    "entity.attribute.MixinAttributeSupplierBuilder",
     "entity.MixinEntity",
     "entity.MixinLivingEntity",
-    "entity.MixinPlayer"
+    "entity.MixinPlayer",
+    "entity.attribute.AttributeMapAccess",
+    "entity.attribute.AttributeSupplierAccess"
   ],
   "client": [
     "entity.MixinLocalPlayer"

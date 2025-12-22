@@ -2,17 +2,19 @@ package net.zaharenko424.protogenmod.event;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingBreatheEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.zaharenko424.protogenmod.command.Transform;
-import net.zaharenko424.protogenmod.transformation.AbstractTransform;
-import net.zaharenko424.protogenmod.transformation.TransformHandler;
-import net.zaharenko424.protogenmod.transformation.TransformUtil;
+import net.zaharenko424.protogenmod.transform.AbstractTransform;
+import net.zaharenko424.protogenmod.transform.TransformHandler;
+import net.zaharenko424.protogenmod.transform.TransformUtil;
 
 @EventBusSubscriber
 public class CommonEvent {
@@ -42,4 +44,26 @@ public class CommonEvent {
         TransformHandler handler = TransformHandler.of(entity);
         if(handler != null) handler.tick();
     }
+
+    //=================================================== TF Sync ====================================================//
+
+    @SubscribeEvent
+    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event){
+        TransformHandler.of(event.getEntity()).syncClients();
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event){
+        if (!(event.getTarget() instanceof LivingEntity entity)) return;
+
+        TransformHandler handler = TransformHandler.of(entity);
+        if(handler != null) handler.syncClient((ServerPlayer) event.getEntity());
+    }
+
+    @SubscribeEvent
+    public static void onRespawn(PlayerEvent.PlayerRespawnEvent event){
+        TransformHandler.of(event.getEntity()).syncClients();
+    }
+
+    //================================================================================================================//
 }

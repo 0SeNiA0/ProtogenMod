@@ -4,8 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.zaharenko424.protogenmod.transformation.AbstractTransform;
-import net.zaharenko424.protogenmod.transformation.TransformUtil;
+import net.zaharenko424.protogenmod.transform.AbstractTransform;
+import net.zaharenko424.protogenmod.transform.TransformUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

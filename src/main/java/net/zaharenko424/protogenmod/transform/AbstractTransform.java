@@ -1,4 +1,4 @@
-package net.zaharenko424.protogenmod.transformation;
+package net.zaharenko424.protogenmod.transform;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.BlockPos;

@@ -1,4 +1,4 @@
-package net.zaharenko424.protogenmod.transformation;
+package net.zaharenko424.protogenmod.transform;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.nbt.CompoundTag;
@@ -7,6 +7,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +25,11 @@ public class TransformEntity<TF extends AbstractTransform<TF, SELF>, SELF extend
         super(entityType, level);
         this.transformType = transformType;
         this.transform = transformType.createTransform(Either.left((SELF)this));//Hopefully this won't blow up
+    }
+
+    public static AttributeSupplier.Builder createTransformAttributes(){
+        return createMobAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.1);//Fix entity movement being 7 * player movement
     }
 
     public TransformType<TF, SELF> transformType(){

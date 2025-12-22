@@ -13,5 +13,5 @@ public class EntityRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, ProtogenMod.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<ProtogenEntity>> PROTOGEN_ENTITY = ENTITY_TYPES
-            .register("protogen", () -> EntityType.Builder.of(ProtogenEntity::new, MobCategory.MISC).build("null"));
+            .register("protogen", () -> EntityType.Builder.of(ProtogenEntity::new, MobCategory.CREATURE).build("null"));
 }

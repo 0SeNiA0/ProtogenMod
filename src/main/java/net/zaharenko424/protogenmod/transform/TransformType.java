@@ -1,7 +1,9 @@
-package net.zaharenko424.protogenmod.transformation;
+package net.zaharenko424.protogenmod.transform;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +21,10 @@ public class TransformType<TF extends AbstractTransform<TF, E>, E extends Transf
             TransformRegistry.TRANSFORM_REGISTRY::get, a -> a.loc
     );
 
+    public static final StreamCodec<FriendlyByteBuf, TransformType<?, ?>> STR_CODEC = StreamCodec.of(
+            (buf, type) -> buf.writeVarInt(TransformRegistry.TRANSFORM_REGISTRY.getId(type)),
+            buf -> TransformRegistry.TRANSFORM_REGISTRY.byIdOrThrow(buf.readVarInt()));
+
     public final ResourceLocation loc;
 
     private final DeferredHolder<EntityType<?>, EntityType<E>> entityHolder;
@@ -31,6 +37,10 @@ public class TransformType<TF extends AbstractTransform<TF, E>, E extends Transf
         this.entityHolder = properties.entityHolder;
         this.transformFunc = properties.transformFunc;
         this.attributeSupplier = properties.attributeSupplier;
+    }
+
+    public EntityType<E> entityType(){
+        return entityHolder.get();
     }
 
     public E createEntity(Level level){

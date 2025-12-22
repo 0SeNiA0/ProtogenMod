@@ -3,8 +3,10 @@ package net.zaharenko424.protogenmod.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
+import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.zaharenko424.protogenmod.ProtogenMod;
+import net.zaharenko424.protogenmod.ProtogenModTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +19,7 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
     }
 
     @Override
-    protected void addTags(HolderLookup.@NotNull Provider p_255894_) {
-
+    protected void addTags(HolderLookup.@NotNull Provider lookup) {
+        tag(ProtogenModTags.Entity.TRANSFORMABLE).add(EntityType.PLAYER);//TODO add more entities
     }
 }

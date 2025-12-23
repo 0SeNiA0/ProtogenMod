@@ -6,8 +6,10 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.zaharenko424.protogenmod.network.ClientPacketHandler;
-import net.zaharenko424.protogenmod.network.packet.SyncTransformPacket;
-import net.zaharenko424.protogenmod.network.packet.SyncTransformProgressPacket;
+import net.zaharenko424.protogenmod.network.ServerPacketHandler;
+import net.zaharenko424.protogenmod.network.packet.ServerboundWeaponFirePacket;
+import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformPacket;
+import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformProgressPacket;
 import net.zaharenko424.protogenmod.registry.TransformRegistry;
 import net.zaharenko424.protogenmod.transform.TransformType;
 
@@ -18,9 +20,13 @@ public class CommonMod {
     public static void onRegisterPayloads(RegisterPayloadHandlersEvent event){
         PayloadRegistrar registrar = event.registrar("1");
 
+        //Transform
         registrar.playToClient(SyncTransformProgressPacket.TYPE, SyncTransformProgressPacket.CODEC, ClientPacketHandler::handleTransformProgress);
 
         registrar.playToClient(SyncTransformPacket.TYPE, SyncTransformPacket.CODEC, ClientPacketHandler::handleTransform);
+
+        //Weapons
+        registrar.playToServer(ServerboundWeaponFirePacket.TYPE, ServerboundWeaponFirePacket.CODEC, ServerPacketHandler::handleWeaponFirePacket);
     }
 
     @SubscribeEvent

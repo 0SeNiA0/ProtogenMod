@@ -14,6 +14,8 @@
     "entity.attribute.AttributeSupplierAccess"
   ],
   "client": [
+    "client.MixinItemRenderer",
+    "client.MixinMinecraft",
     "entity.MixinLocalPlayer"
   ]
 }

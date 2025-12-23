@@ -1,4 +1,4 @@
-package net.zaharenko424.protogenmod.network.packet;
+package net.zaharenko424.protogenmod.network.packet.transform;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

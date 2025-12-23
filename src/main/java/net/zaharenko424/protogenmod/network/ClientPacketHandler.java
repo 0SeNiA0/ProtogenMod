@@ -3,8 +3,8 @@ package net.zaharenko424.protogenmod.network;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.zaharenko424.protogenmod.network.packet.SyncTransformPacket;
-import net.zaharenko424.protogenmod.network.packet.SyncTransformProgressPacket;
+import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformPacket;
+import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformProgressPacket;
 import net.zaharenko424.protogenmod.transform.TransformHandler;
 
 public class ClientPacketHandler {

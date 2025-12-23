@@ -1,4 +1,4 @@
-package net.zaharenko424.protogenmod.network.packet;
+package net.zaharenko424.protogenmod.network.packet.transform;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;

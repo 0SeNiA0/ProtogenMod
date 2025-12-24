@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.zaharenko424.protogenmod.ProtogenMod;
+import net.zaharenko424.protogenmod.registry.ItemRegistry;
 import org.jetbrains.annotations.NotNull;
 
 public class ItemModelProvider extends net.neoforged.neoforge.client.model.generators.ItemModelProvider {
@@ -19,7 +20,9 @@ public class ItemModelProvider extends net.neoforged.neoforge.client.model.gener
 
     @Override
     protected void registerModels() {
-
+        basicItem(ItemRegistry.RAM_64GB);
+        basicItem(ItemRegistry.RAM_128GB);
+        basicItem(ItemRegistry.RAM_256GB);
     }
 
     private @NotNull ResourceLocation itemLoc(@NotNull DeferredItem<?> item){
@@ -28,6 +31,10 @@ public class ItemModelProvider extends net.neoforged.neoforge.client.model.gener
 
     private @NotNull ResourceLocation blockLoc(@NotNull DeferredBlock<?> block){
         return block.getId().withPrefix(BLOCK_FOLDER + "/");
+    }
+
+    protected void basicItem(DeferredItem<?> item){
+        basicItem(item.asItem());
     }
 
     private @NotNull ItemModelBuilder basicItemBlockTexture(@NotNull DeferredItem<?> item, @NotNull DeferredBlock<?> block){

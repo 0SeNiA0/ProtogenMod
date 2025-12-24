@@ -100,7 +100,7 @@ public class PacketUtil {
     }
 
     public static Predicate<ServerPlayer> defParticleDistance(double x, double y, double z, boolean longDist) {
-        return longDist ? distanceSqr(x, y, z, 512) : distanceSqr(x, y, z, 32);
+        return longDist ? distance(x, y, z, 512) : distance(x, y, z, 32);
     }
 
     public static Predicate<ServerPlayer> distance(Entity entity, double distance) {

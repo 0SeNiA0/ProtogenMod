@@ -65,12 +65,8 @@ public abstract class LanguageProvider extends net.neoforged.neoforge.common.dat
         add(key.getName(), value);
     }
 
-    protected void addDItem(DeferredItem<?> item, String value){
-        add(item.get(), value);
-    }
-
     protected void addItemFromId(DeferredItem<?> item){
-        addDItem(item, Arrays.stream(item.getId().getPath().split("_"))
+        addItem(item, Arrays.stream(item.getId().getPath().split("_"))
                 .map(word -> word.substring(0, 1).toUpperCase(Locale.ROOT) + word.substring(1))
                 .collect(Collectors.joining(" ")));
     }

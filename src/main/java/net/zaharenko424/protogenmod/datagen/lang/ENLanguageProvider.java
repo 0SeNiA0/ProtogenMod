@@ -8,7 +8,7 @@ import net.zaharenko424.protogenmod.registry.SoundRegistry;
 import net.zaharenko424.protogenmod.registry.TransformRegistry;
 
 import static net.zaharenko424.protogenmod.registry.EntityRegistry.PLASMA_BOLT;
-import static net.zaharenko424.protogenmod.registry.ItemRegistry.THE_RIFLE;
+import static net.zaharenko424.protogenmod.registry.ItemRegistry.*;
 
 public class ENLanguageProvider extends LanguageProvider {
 
@@ -58,6 +58,9 @@ public class ENLanguageProvider extends LanguageProvider {
 
         //Items
         addItemFromId(THE_RIFLE);
+        addItem(RAM_64GB, "DDR8 RAM 64GB");
+        addItem(RAM_128GB, "DDR8 RAM 128GB");
+        addItem(RAM_256GB, "DDR8 RAM 256GB");
 
         add(CreativeTabRegistry.MAIN_TAB.getId().toLanguageKey("itemGroup"), "Protogen Mod");
 
@@ -74,6 +77,8 @@ public class ENLanguageProvider extends LanguageProvider {
         addSound(SoundRegistry.PLASMA_RIFLE, "Plasma Rifle Shot");
 
         //Tooltips
+        addTooltip("ram", "Mmm, RAM Cookies");
+        addTooltip("ram_alt", "Electronic Component");
 
 
         //Transfurs

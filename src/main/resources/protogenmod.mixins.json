@@ -7,6 +7,7 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "MixinItemStack",
     "entity.MixinEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayer",

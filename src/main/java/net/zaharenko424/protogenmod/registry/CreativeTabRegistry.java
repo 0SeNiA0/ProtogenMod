@@ -17,10 +17,11 @@ public class CreativeTabRegistry {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MAIN_TAB = CREATIVE_TABS.register("main", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.protogenmod.main"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(RAM_64GB::toStack)
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM);
-                output.accept(EXAMPLE_BLOCK_ITEM);
                 output.accept(THE_RIFLE);
+                output.accept(RAM_64GB);
+                output.accept(RAM_128GB);
+                output.accept(RAM_256GB);
             }).build());
 }

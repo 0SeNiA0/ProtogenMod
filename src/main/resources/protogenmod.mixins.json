@@ -10,6 +10,7 @@
     "entity.MixinEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayer",
+    "entity.MixinServerEntity",
     "entity.attribute.AttributeMapAccess",
     "entity.attribute.AttributeSupplierAccess"
   ],

@@ -5,12 +5,14 @@ import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.world.damagesource.DamageEffects;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.zaharenko424.protogenmod.DamageSources;
 import net.zaharenko424.protogenmod.ProtogenMod;
 import net.zaharenko424.protogenmod.datagen.worldgen.BiomeModifierProvider;
 import net.zaharenko424.protogenmod.datagen.worldgen.ConfiguredFeatureProvider;
@@ -40,7 +42,8 @@ public class DatapackEntriesProvider extends DatapackBuiltinEntriesProvider {
     }
 
     private static void damageType(BootstrapContext<DamageType> context){
-
+        context.register(DamageSources.plasma, new DamageType("plasma", 0.1f, DamageEffects.BURNING));
+        context.register(DamageSources.plasmaExplosion, new DamageType("plasma_explosion", 0.1f, DamageEffects.BURNING));
     }
 
     private static void biome(BootstrapContext<Biome> context){

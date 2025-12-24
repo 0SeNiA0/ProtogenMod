@@ -1,10 +1,13 @@
 package net.zaharenko424.protogenmod.datagen.lang;
 
 import net.minecraft.data.PackOutput;
+import net.zaharenko424.protogenmod.DamageSources;
 import net.zaharenko424.protogenmod.ProtogenMod;
 import net.zaharenko424.protogenmod.registry.CreativeTabRegistry;
+import net.zaharenko424.protogenmod.registry.SoundRegistry;
 import net.zaharenko424.protogenmod.registry.TransformRegistry;
 
+import static net.zaharenko424.protogenmod.registry.EntityRegistry.PLASMA_BOLT;
 import static net.zaharenko424.protogenmod.registry.ItemRegistry.THE_RIFLE;
 
 public class ENLanguageProvider extends LanguageProvider {
@@ -31,6 +34,8 @@ public class ENLanguageProvider extends LanguageProvider {
 
 
         //Death Messages
+        addDeathMessage(DamageSources.plasma, "%1$s was melted with plasma", "%1$s was melted with plasma by %2$s using %3$s", "%1$s was melted with plasma by %2$s");
+        addDeathMessage(DamageSources.plasmaExplosion, "%1$s burned to death in a fiery ball of plasma", "%1$s was exploded with plasma by %2$s using %3$s", "%1$s walked into a plasma explosion while fighting %2$s");
 
 
         //DNA Types
@@ -40,6 +45,7 @@ public class ENLanguageProvider extends LanguageProvider {
 
 
         //Entities
+        addEntityType(PLASMA_BOLT, "Plasma Bolt");
 
 
         //Game rules
@@ -65,7 +71,7 @@ public class ENLanguageProvider extends LanguageProvider {
 
 
         //Sounds
-
+        addSound(SoundRegistry.PLASMA_RIFLE, "Plasma Rifle Shot");
 
         //Tooltips
 

@@ -7,6 +7,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.zaharenko424.protogenmod.network.ClientPacketHandler;
 import net.zaharenko424.protogenmod.network.ServerPacketHandler;
+import net.zaharenko424.protogenmod.network.packet.EntityMovementPacket;
 import net.zaharenko424.protogenmod.network.packet.ServerboundWeaponFirePacket;
 import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformPacket;
 import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformProgressPacket;
@@ -27,6 +28,11 @@ public class CommonMod {
 
         //Weapons
         registrar.playToServer(ServerboundWeaponFirePacket.TYPE, ServerboundWeaponFirePacket.CODEC, ServerPacketHandler::handleWeaponFirePacket);
+
+
+
+        //Projectile sync fix
+        registrar.playToClient(EntityMovementPacket.TYPE, EntityMovementPacket.CODEC, ClientPacketHandler::handleEntityMovement);
     }
 
     @SubscribeEvent

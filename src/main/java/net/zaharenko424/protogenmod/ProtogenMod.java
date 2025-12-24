@@ -33,6 +33,7 @@ public class ProtogenMod {
         CreativeTabRegistry.CREATIVE_TABS.register(modEventBus);
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
         ItemRegistry.ITEMS.register(modEventBus);
+        SoundRegistry.SOUNDS.register(modEventBus);
 
         AttachmentRegistry.ATTACHMENT_TYPES.register(modEventBus);
         TransformRegistry.TRANSFORM_TYPES.register(modEventBus);

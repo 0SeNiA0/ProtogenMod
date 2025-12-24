@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.zaharenko424.protogenmod.event.ClientMod;
+import net.zaharenko424.protogenmod.item.AbstractWeapon;
 import net.zaharenko424.protogenmod.registry.ItemRegistry;
 import net.zaharenko424.protogenmod.util.ItemTransformUtil;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,9 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ItemRenderer.class)
 public abstract class MixinItemRenderer {
-
-    @Unique
-    private static final int ANIM_DURATION = 3;
 
     @Unique
     private float invAnim;
@@ -71,7 +69,7 @@ public abstract class MixinItemRenderer {
             progressInvAnim();
             if(invAnim == 0) return original.call(poseStack, model, cameraTransformType, applyLeftHandTransform);
 
-            ItemTransformUtil.apply(applyLeftHandTransform ? ClientMod.RIFLE_FP_L : ClientMod.RIFLE_FP_R, model.getTransforms().getTransform(cameraTransformType), (1 - invAnim / ANIM_DURATION) + deltaAccumulator / ANIM_DURATION, poseStack, applyLeftHandTransform);
+            ItemTransformUtil.apply(applyLeftHandTransform ? ClientMod.RIFLE_FP_L : ClientMod.RIFLE_FP_R, model.getTransforms().getTransform(cameraTransformType), (1 - invAnim / AbstractWeapon.ANIM_DURATION) + deltaAccumulator / AbstractWeapon.ANIM_DURATION, poseStack, applyLeftHandTransform);
 
             return model;
         }
@@ -79,11 +77,11 @@ public abstract class MixinItemRenderer {
         int usingFor = player.getTicksUsingItem();
 
         ItemTransform itemTransform = applyLeftHandTransform ? ClientMod.RIFLE_FP_L : ClientMod.RIFLE_FP_R;
-        if(usingFor < ANIM_DURATION){
+        if(usingFor < AbstractWeapon.ANIM_DURATION){
             invAnim = usingFor + Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(true);
-            ItemTransformUtil.apply(model.getTransforms().getTransform(cameraTransformType), itemTransform, invAnim / (float) ANIM_DURATION, poseStack, applyLeftHandTransform);
+            ItemTransformUtil.apply(model.getTransforms().getTransform(cameraTransformType), itemTransform, invAnim / (float) AbstractWeapon.ANIM_DURATION, poseStack, applyLeftHandTransform);
         } else {
-            invAnim = ANIM_DURATION;
+            invAnim = AbstractWeapon.ANIM_DURATION;
             ItemTransformUtil.apply(itemTransform, poseStack, applyLeftHandTransform);
         }
         deltaAccumulator = 0;

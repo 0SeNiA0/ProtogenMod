@@ -8,8 +8,8 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ComputeFovModifierEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.zaharenko424.protogenmod.item.AbstractWeapon;
 import net.zaharenko424.protogenmod.network.packet.ServerboundWeaponFirePacket;
@@ -17,17 +17,27 @@ import net.zaharenko424.protogenmod.network.packet.ServerboundWeaponFirePacket;
 @EventBusSubscriber(Dist.CLIENT)
 public class ClientEvent {
 
-    private static long lastShot;
+    @SubscribeEvent
+    public static void onComputeFOVModifier(ComputeFovModifierEvent event){
+        Player player = event.getPlayer();
+        ItemStack stack = player.getUseItem();
+        if(!player.isUsingItem() || !(stack.getItem() instanceof AbstractWeapon)) return;
+
+        float f1 = (float) player.getTicksUsingItem() / AbstractWeapon.ANIM_DURATION;
+        if (f1 > 1.0F) {
+            f1 = 1.0F;
+        } else {
+            f1 *= f1;
+        }
+
+        event.setNewFovModifier(event.getNewFovModifier() * (1.0F - f1 * 0.25F));
+    }
+
     private static boolean attackingBlock;
 
     @SubscribeEvent
     public static void onInput(InputEvent.MouseButton.Post event){
-        if(!Minecraft.getInstance().options.keyAttack.isDown()) attackingBlock = false;
-    }
-
-    @SubscribeEvent
-    public static void onLeftClickEmpty(PlayerInteractEvent.LeftClickEmpty event){
-        tryShoot(event.getEntity(), event.getItemStack(), event.getHand());
+        if (!Minecraft.getInstance().options.keyAttack.isDown()) attackingBlock = false;
     }
 
     @SubscribeEvent
@@ -37,31 +47,23 @@ public class ClientEvent {
 
         Player player = minecraft.player;
         HitResult result = minecraft.hitResult;
-        if ((result != null && result.getType() == HitResult.Type.ENTITY) || !(player.getItemInHand(event.getHand()).getItem() instanceof AbstractWeapon)) return;
-        event.setSwingHand(false);
-    }
+        InteractionHand hand = event.getHand();
+        ItemStack stack = player.getItemInHand(hand);
+        if ((result != null && result.getType() == HitResult.Type.ENTITY) || !(stack.getItem() instanceof AbstractWeapon)) return;
 
-    @SubscribeEvent
-    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event){
-        if (event.getAction() != PlayerInteractEvent.LeftClickBlock.Action.START) return;
-
-        if(attackingBlock) {
-            event.setCanceled(true);
-            return;
+        if (!attackingBlock) {
+            tryShoot(player, stack, hand);
+            attackingBlock = true;
         }
-
-        event.setCanceled(tryShoot(event.getEntity(), event.getItemStack(), event.getHand()) || event.isCanceled());
-        attackingBlock = true;
+        event.setSwingHand(false);
+        event.setCanceled(true);
     }
 
-    public static boolean tryShoot(Player player, ItemStack stack, InteractionHand hand){
-        if(stack.isEmpty() || !(stack.getItem() instanceof AbstractWeapon)) return false;
+    public static void tryShoot(Player player, ItemStack stack, InteractionHand hand){
+        if(stack.isEmpty() || !(stack.getItem() instanceof AbstractWeapon weapon)) return;
 
-        long gameTime = player.level().getGameTime();
-        if(lastShot == gameTime) return false;//Max 1 packet per tick but whether packet will be accepted depends on the server -> no incentive to use autoclickers & lower chance of sync issues
+        if (player.getCooldowns().isOnCooldown(weapon)) return;
 
-        lastShot = gameTime;
         PacketDistributor.sendToServer(new ServerboundWeaponFirePacket(hand));
-        return true;
     }
 }

@@ -66,6 +66,11 @@ public abstract class MixinItemRenderer {
         if(player.getUseItem() != stack){
             if(invAnim == 0) return original.call(poseStack, model, cameraTransformType, applyLeftHandTransform);
 
+            ItemStack mainHand = player.getMainHandItem();//prevent offhand anim if main hand is used
+            if (mainHand.is(ItemRegistry.THE_RIFLE) && stack != mainHand) {
+                return original.call(poseStack, model, cameraTransformType, applyLeftHandTransform);
+            }
+
             progressInvAnim();
             if(invAnim == 0) return original.call(poseStack, model, cameraTransformType, applyLeftHandTransform);
 

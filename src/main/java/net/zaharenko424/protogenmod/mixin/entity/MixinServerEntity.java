@@ -28,12 +28,6 @@ public class MixinServerEntity {
     @Final
     private Entity entity;
 
-    @WrapOperation(at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V", ordinal = 2),
-            method = "sendChanges")
-    private <T> void onVelocity1(Consumer<Packet<?>> instance, T t, Operation<Void> original){
-        onVelocity(instance, t, original);
-    }
-//TODO make more specific when superclass of PlasmaBolt is decided
     @WrapOperation(at = @At(value = "INVOKE", target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V", ordinal = 3),
             method = "sendChanges")
     private <T> void onVelocity2(Consumer<Packet<?>> instance, T t, Operation<Void> original){

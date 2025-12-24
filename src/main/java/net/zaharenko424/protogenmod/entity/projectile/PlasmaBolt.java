@@ -198,7 +198,7 @@ public class PlasmaBolt extends Projectile {
             setOldPosAndRot();
             setPos(hitresult.getLocation().subtract(position()).scale(0.9).add(position()));
             onHit(hitresult);
-            if (isRemoved()) return;
+            return;
         }
 
         if (isInWater()){

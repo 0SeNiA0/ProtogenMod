@@ -28,6 +28,6 @@ public interface DamageSources {
     }
 
     private static @NotNull ResourceKey<DamageType> create(String str){
-        return ResourceKey.create(Registries.DAMAGE_TYPE, ProtogenMod.resourceLoc(str));
+        return ProtogenMod.resourceKey(Registries.DAMAGE_TYPE, str);
     }
 }

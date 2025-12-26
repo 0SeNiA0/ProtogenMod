@@ -1,0 +1,19 @@
+package net.zaharenko424.protogenmod.registry;
+
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.util.ExtraCodecs;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.zaharenko424.protogenmod.ProtogenMod;
+
+public class ComponentRegistry {
+
+    public static final DeferredRegister.DataComponents COMPONENTS = DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, ProtogenMod.MODID);
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ITEM_ENERGY = COMPONENTS
+            .register("item_energy", () -> DataComponentType.<Integer>builder().persistent(ExtraCodecs.NON_NEGATIVE_INT)
+                    .networkSynchronized(ByteBufCodecs.VAR_INT).build());
+
+}

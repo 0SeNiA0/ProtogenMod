@@ -130,7 +130,7 @@ public class PlasmaBolt extends Projectile {
             }
         } else {
             if (level() instanceof ServerLevel level) {
-                PacketUtil.sendParticles(level, PacketUtil.distance(this, PARTICLE_DIST), ParticleTypes.SOUL_FIRE_FLAME, true, getX() - .325, getY(), getZ() - .325, 25, .75f, 1, .75f, 2);
+                PacketUtil.sendParticles(level, PacketUtil.distance(this, PARTICLE_DIST), ParticleTypes.ELECTRIC_SPARK, true, getX() - .325, getY(), getZ() - .325, 25, .75f, 1, .75f, 2);
             }
             explode(DamageSources.plasmaExplosion(this, owner), 2f, SoundEvents.DRAGON_FIREBALL_EXPLODE, 1);
         }
@@ -158,7 +158,7 @@ public class PlasmaBolt extends Projectile {
         if (level.isClientSide) return;
 
         if (level() instanceof ServerLevel sLevel) {
-            PacketUtil.sendParticles(sLevel, PacketUtil.distance(this, PARTICLE_DIST), ParticleTypes.SOUL_FIRE_FLAME, true, getX() - .25, getY(), getZ() - .25, 25, .5f, 1, .5f, 2);
+            PacketUtil.sendParticles(sLevel, PacketUtil.distance(this, PARTICLE_DIST), ParticleTypes.ELECTRIC_SPARK, true, getX() - .25, getY(), getZ() - .25, 25, .5f, 1, .5f, 2);
         }
         explode(DamageSources.plasma(this, getOwner()), 1f, SoundEvents.LAVA_EXTINGUISH, 0.5f);
         discard();
@@ -179,7 +179,7 @@ public class PlasmaBolt extends Projectile {
             PacketUtil.sendCenteredParticles(level, send, ParticleTypes.EXPLOSION, this, 1, 0, 0, 0, 1);
             PacketUtil.sendCenteredParticles(level, send, ParticleTypes.BUBBLE, this, 100, 1, 1, 1, .5f);
             PacketUtil.sendParticles(level, send, ParticleTypes.CAMPFIRE_COSY_SMOKE, getX() - .325, getY(), getZ() - .325, 50, .75f, 1, .75f, .1f);
-            PacketUtil.sendParticles(level, send, ParticleTypes.SOUL_FIRE_FLAME, true, getX() - .325, getY(), getZ() - .325, 75, .75f, 1, .75f, 2);
+            PacketUtil.sendParticles(level, send, ParticleTypes.ELECTRIC_SPARK, true, getX() - .325, getY(), getZ() - .325, 75, .75f, 1, .75f, 2);
         }
 
         explode(DamageSources.plasmaExplosion(this, getOwner()), 2.5f, SoundEvents.LAVA_EXTINGUISH, 4);
@@ -237,7 +237,7 @@ public class PlasmaBolt extends Projectile {
             if (random.nextInt(3) != 0) continue;
 
             state = level.getBlockState(pos);
-            if (!state.isAir() && !state.canBeReplaced()) continue;
+            if (!state.canBeReplaced() || !level.getFluidState(pos).isEmpty()) continue;
 
             if (level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)){
                 level.setBlockAndUpdate(pos, BaseFireBlock.getState(level, pos));

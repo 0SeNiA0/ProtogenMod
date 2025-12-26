@@ -19,6 +19,10 @@ public class ProtogenMod {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 
+    public static <T> @NotNull ResourceKey<T> resourceKey(ResourceKey<? extends Registry<T>> registry, String str){
+        return ResourceKey.create(registry, resourceLoc(str));
+    }
+
     public static @NotNull ResourceLocation textureLoc(String path){
         return ResourceLocation.fromNamespaceAndPath(MODID,"textures/" + path + ".png");
     }
@@ -30,6 +34,7 @@ public class ProtogenMod {
     public ProtogenMod(IEventBus modEventBus, ModContainer modContainer) {
 
         BlockRegistry.BLOCKS.register(modEventBus);
+        ComponentRegistry.COMPONENTS.register(modEventBus);
         CreativeTabRegistry.CREATIVE_TABS.register(modEventBus);
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
         ItemRegistry.ITEMS.register(modEventBus);

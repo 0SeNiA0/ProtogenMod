@@ -20,8 +20,12 @@ public class CreativeTabRegistry {
             .icon(RAM_64GB::toStack)
             .displayItems((parameters, output) -> {
                 output.accept(THE_RIFLE);
+
                 output.accept(RAM_64GB);
                 output.accept(RAM_128GB);
                 output.accept(RAM_256GB);
+
+                output.accept(COPPER_WIRE_ITEM);
+                output.accept(GOLD_WIRE_ITEM);
             }).build());
 }

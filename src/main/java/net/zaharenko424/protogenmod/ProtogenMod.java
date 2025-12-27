@@ -1,6 +1,8 @@
 package net.zaharenko424.protogenmod;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -33,6 +35,7 @@ public class ProtogenMod {
 
     public ProtogenMod(IEventBus modEventBus, ModContainer modContainer) {
 
+        BlockEntityRegistry.BLOCK_ENTITIES.register(modEventBus);
         BlockRegistry.BLOCKS.register(modEventBus);
         ComponentRegistry.COMPONENTS.register(modEventBus);
         CreativeTabRegistry.CREATIVE_TABS.register(modEventBus);

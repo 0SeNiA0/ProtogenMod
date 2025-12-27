@@ -16,6 +16,7 @@ import net.neoforged.neoforge.client.model.generators.ModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.zaharenko424.protogenmod.ProtogenMod;
+import net.zaharenko424.protogenmod.block.WireBlock;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.*;
+import static net.zaharenko424.protogenmod.registry.BlockRegistry.COPPER_WIRE;
+import static net.zaharenko424.protogenmod.registry.BlockRegistry.GOLD_WIRE;
 
 @ParametersAreNonnullByDefault
 public class BlockStateProvider extends net.neoforged.neoforge.client.model.generators.BlockStateProvider {
@@ -33,7 +36,8 @@ public class BlockStateProvider extends net.neoforged.neoforge.client.model.gene
 
     @Override
     protected void registerStatesAndModels() {
-
+        wire(COPPER_WIRE);
+        wire(GOLD_WIRE);
     }
 
     private @NotNull ResourceLocation blockLoc(ResourceLocation loc){
@@ -260,13 +264,17 @@ public class BlockStateProvider extends net.neoforged.neoforge.client.model.gene
         return Direction.NORTH;
     }
 
-    /*private void wire(DeferredBlock<WireBlock> wire){
-        ResourceLocation wireLoc = AChanged.resourceLoc("block/wire/wire");
-        ModelFile wire_ = models().getExistingFile(wireLoc);
-        ModelFile wire_n = models().getExistingFile(wireLoc.withSuffix("_n"));
-        ModelFile wire_u = models().getExistingFile(wireLoc.withSuffix("_u"));
-        ModelFile wire_ns = models().getExistingFile(wireLoc.withSuffix("_ns"));
-        itemModels().getBuilder(wire.getId().getPath()).parent(wire_ns);
+    private static final ResourceLocation WIRE_MODEL = ProtogenMod.resourceLoc("block/wire/wire");
+
+    private void wire(DeferredBlock<WireBlock> wire){
+        ResourceLocation loc = wire.getId();
+        ResourceLocation tex = blockLoc(loc);
+        String path = loc.getPath();
+        ModelFile wire_ = models().withExistingParent(path, WIRE_MODEL).texture("0", tex);//models().getExistingFile(WIRE_MODEL);
+        ModelFile wire_n = models().withExistingParent(path + "_n", WIRE_MODEL.withSuffix("_n")).texture("0", tex);//models().getExistingFile(WIRE_MODEL.withSuffix("_n"));
+        ModelFile wire_u = models().withExistingParent(path + "_u", WIRE_MODEL.withSuffix("_u")).texture("0", tex);//models().getExistingFile(WIRE_MODEL.withSuffix("_u"));
+        ModelFile wire_ns = models().withExistingParent(path + "_ns", WIRE_MODEL.withSuffix("_ns")).texture("0", tex);//models().getExistingFile(WIRE_MODEL.withSuffix("_ns"));
+        itemModels().getBuilder(path).parent(wire_ns);
         getMultipartBuilder(wire.get())
                 .part().modelFile(wire_).addModel().end()
                 .part().modelFile(wire_n).addModel().condition(NORTH, true).end()
@@ -275,7 +283,7 @@ public class BlockStateProvider extends net.neoforged.neoforge.client.model.gene
                 .part().modelFile(wire_n).rotationY(-90).addModel().condition(WEST, true).end()
                 .part().modelFile(wire_u).addModel().condition(UP, true).end()
                 .part().modelFile(wire_u).rotationX(180).addModel().condition(DOWN, true).end();
-    }*/
+    }
 
     private void connectedTextureWithItem(DeferredBlock<?> block, String subFolder){
         ResourceLocation textureLoc = block.getId().withPrefix("block/" + subFolder + "/");

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static net.zaharenko424.protogenmod.registry.BlockRegistry.BLOCKS;
+import static net.zaharenko424.protogenmod.registry.BlockRegistry.*;
 
 public class BlockLootTableProvider extends BlockLootSubProvider {
 
@@ -25,7 +25,8 @@ public class BlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-
+        dropSelf(COPPER_WIRE.get());
+        dropSelf(GOLD_WIRE.get());
     }
 
     private void dropSlab(DeferredBlock<? extends SlabBlock> slab){

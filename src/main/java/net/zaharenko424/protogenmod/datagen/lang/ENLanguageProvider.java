@@ -61,6 +61,8 @@ public class ENLanguageProvider extends LanguageProvider {
         addItem(RAM_64GB, "DDR8 RAM 64GB");
         addItem(RAM_128GB, "DDR8 RAM 128GB");
         addItem(RAM_256GB, "DDR8 RAM 256GB");
+        addItemFromId(COPPER_WIRE_ITEM);
+        addItemFromId(GOLD_WIRE_ITEM);
 
         add(CreativeTabRegistry.MAIN_TAB.getId().toLanguageKey("itemGroup"), "Protogen Mod");
 

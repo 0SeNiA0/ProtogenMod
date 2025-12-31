@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.attachment.IAttachmentSerializer;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.zaharenko424.protogenmod.ProtogenModTags;
 import net.zaharenko424.protogenmod.mixin.entity.attribute.AttributeMapAccess;
@@ -27,6 +28,10 @@ import net.zaharenko424.protogenmod.mixin.entity.attribute.AttributeSupplierAcce
 import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformPacket;
 import net.zaharenko424.protogenmod.network.packet.transform.SyncTransformProgressPacket;
 import net.zaharenko424.protogenmod.registry.AttachmentRegistry;
+import net.zaharenko424.protogenmod.transform.event.TransformStartEvent;
+import net.zaharenko424.protogenmod.transform.event.TransformStartedEvent;
+import net.zaharenko424.protogenmod.transform.event.TransformedEvent;
+import net.zaharenko424.protogenmod.transform.event.UnTransformedEvent;
 import net.zaharenko424.protogenmod.util.AttributeUtil;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -137,13 +142,16 @@ public class TransformHandler {
         if (transformType() == transformType) return;
         if (!(holder instanceof Player)) return;
 
-        transformProgress = new TransformProgress(transformType, TransformProgress.DEF_DURATION);
+        TransformStartEvent event = NeoForge.EVENT_BUS.post(new TransformStartEvent(holder, transformType, TransformProgress.DEF_DURATION));
+        transformProgress = new TransformProgress(transformType, event.newDuration());
 
         if(!isTransformed()){//Let interpolation happen on next tick
             captureBaseValues();
         }
 
         PacketDistributor.sendToPlayersTrackingEntityAndSelf(holder, new SyncTransformProgressPacket(holder.getId(), transformProgress));
+
+        NeoForge.EVENT_BUS.post(new TransformStartedEvent(holder, transformType, transformProgress.duration));
     }
 
     void finishTransform(TransformType<?, ?> transformInto){
@@ -152,8 +160,12 @@ public class TransformHandler {
             TransformEntity<?, ?> entity = transformInto.createEntity(holder.level());
             entity.moveTo(holder.getX(), holder.getY(), holder.getZ(), holder.getYRot(), holder.getXRot());
             holder.level().addFreshEntity(entity);
+
+            NeoForge.EVENT_BUS.post(new TransformedEvent(holder, transformType, transformInto));
             return;
         }
+
+        TransformType<?, ?> prev = transformType;
 
         transformType = transformInto;
         transformProgress = null;
@@ -162,11 +174,15 @@ public class TransformHandler {
         interpolateBaseValues();
 
         syncClients();
+
+        NeoForge.EVENT_BUS.post(new TransformedEvent(holder, prev, transformType));
     }
 
     public void untransform(){
         if (holder.level().isClientSide) return;
         if (!isTransformed() && !isTransforming()) return;
+
+        TransformType<?, ?> type = transformType;
 
         transformType = null;
         transform = null;
@@ -174,6 +190,8 @@ public class TransformHandler {
         baseValues.clear();
 
         syncClients();
+
+        NeoForge.EVENT_BUS.post(new UnTransformedEvent(holder, type));
     }
 
     public void tick(){
